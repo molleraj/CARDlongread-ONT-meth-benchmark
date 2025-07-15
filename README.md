@@ -1,6 +1,7 @@
 # NIA CARD Long Read Sequencing Methylation Benchmarking
 Oxford Nanopore Technologies (ONT) long read sequencing data not only sequences longer fragments of nucleic acid than short read Illumina sequencing but also identifies modifications in the native nucleic acid. Much like sequencing accuracy, methylation calling accuracy has steadily improved with chemistry, sampling rate, and basecalling model improvements. We thus provide scripts and guidelines for standard benchmarking of methylation calling from Oxford Nanopore (ONT) long read sequencing data to evaluate changes in performance.
-
+## Benchmarking within modkit
+The [modkit](https://github.com/nanoporetech/modkit) methylation modification toolkit ONT provides includes a subcommand to benchmark methylation from 10,042 reads in an alignment (mapped BAM) by default.
 ## Usage
 We have included a script to compare modkit sample-probs methylation benchmarks across different samples by drawing methylation likelihood lineplots.
 ```
