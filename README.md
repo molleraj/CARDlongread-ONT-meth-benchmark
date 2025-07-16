@@ -3,7 +3,7 @@ Oxford Nanopore Technologies (ONT) long read sequencing data not only sequences 
 ## Benchmarking within modkit
 The [modkit](https://github.com/nanoporetech/modkit) methylation modification toolkit ONT provides includes a subcommand (sample-probs) to benchmark methylation from 10,042 reads in an alignment (mapped BAM) by default.
 
-We have run ```modkit sample-probs``` to generate methylation probabilities TSV files like so to generate both methylation likelihood thresholds for ```modkit pileup``` and to generate histograms of methylation likelihoods for each detected modification:
+We have run ```modkit sample-probs``` to generate methylation probabilities TSV files like so to generate both methylation likelihood thresholds for ```modkit pileup``` and to generate histograms (```--hist```) of methylation likelihoods for each detected modification:
 ```
 modkit sample-probs --force --hist -t 64 sample.bam -o MODKIT/sample --prefix sample
 ```
