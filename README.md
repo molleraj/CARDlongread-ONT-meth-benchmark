@@ -23,3 +23,5 @@ optional arguments:
   --min_ml MIN_ML       Minimum methylation likelihood to plot (between 0 and 1).
   --max_ml MAX_ML       Maximum methylation likelihood to plot (between 0 and 1).
 ```
+## Example output
+<img width="1705" height="1357" alt="image" src="https://github.com/user-attachments/assets/143227de-f269-4e7e-a4c5-ca3598708cec" />
