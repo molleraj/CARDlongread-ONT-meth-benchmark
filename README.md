@@ -28,7 +28,7 @@ optional arguments:
   --min_ml MIN_ML       Minimum methylation likelihood to plot (between 0 and 1).
   --max_ml MAX_ML       Maximum methylation likelihood to plot (between 0 and 1).
 ```
-We also added a script to visualize pairwise comparisons between methylation entropies of two samples for which differentially methylated regions (DMRs) were identified with several different methods (modkit dmr pair fine-grained, DSS/bsseq with smoothing, and DSS/bsseq without smoothing). This script was developed as part of the BCM HGSC hackathon (MethSmoothEval)[https://github.com/collaborativebioinformatics/MethSmoothEval] project.
+We also added a script to visualize pairwise comparisons between methylation entropies of two samples for which differentially methylated regions (DMRs) were identified with several different methods (modkit dmr pair fine-grained, DSS/bsseq with smoothing, and DSS/bsseq without smoothing). This script was developed as part of the BCM HGSC hackathon [MethSmoothEval](https://github.com/collaborativebioinformatics/MethSmoothEval) project.
 ```
 usage: CARDlongread_methylation_entropy_pairwise_comparison.py [-h] --sample_name_1 SAMPLE_NAME_1 --sample_name_2 SAMPLE_NAME_2 --sample_1_bulk_entropy SAMPLE_1_BULK_ENTROPY --sample_2_bulk_entropy SAMPLE_2_BULK_ENTROPY
                                                                --sample_1_modkit_dmr_entropy SAMPLE_1_MODKIT_DMR_ENTROPY --sample_2_modkit_dmr_entropy SAMPLE_2_MODKIT_DMR_ENTROPY --sample_1_dss_unsmoothed_dmr_entropy
