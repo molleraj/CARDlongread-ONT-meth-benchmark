@@ -66,7 +66,7 @@ def per_sample_entropy_distribution_histogram(per_sample_entropy_df,sample_name,
     # plt.legend(title="Region type")
     # add title
     ax.set_title(plot_title)
-    # save figure - file name is (output_prefix)_per_sample_entropy_distribution_histogram.png
+    # save figure - file name is (output_prefix)_(sample_name)_per_sample_entropy_distribution_histogram.png
     fig.savefig(output_prefix + "_" + sample_name + "_per_sample_entropy_distribution_histogram.png", format='png', dpi=300, bbox_inches='tight')
     # close figure
     fig.clf()
@@ -86,7 +86,7 @@ def pairwise_entropy_scatterplot(both_samples_entropy_df,sample_name_1,sample_na
     legend.set_title("Region type")
     # add title
     ax.set_title(plot_title)
-    # save figure - file name is (output_prefix)_pairwise_entropy_scatterplot.png
+    # save figure - file name is (output_prefix)_(sample_name_1)_v_(sample_name_2)_pairwise_entropy_scatterplot.png
     fig.savefig(output_prefix + "_" + sample_name_1 + "_v_" + sample_name_2 + "_pairwise_entropy_scatterplot.png", format='png', dpi=300, bbox_inches='tight')
     # close figure
     fig.clf()
@@ -108,7 +108,7 @@ def per_sample_entropy_read_count_scatterplot(per_sample_entropy_df,sample_name,
     legend.set_title("Region type")
     # add title
     ax.set_title(plot_title)
-    # save figure - file name is (output_prefix)_per_sample_entropy_read_proportion_scatterplot.png
+    # save figure - file name is (output_prefix)_(sample_name)_per_sample_entropy_read_proportion_scatterplot.png
     fig.savefig(output_prefix + "_" + sample_name + "_per_sample_entropy_read_count_scatterplot.png", format='png', dpi=300, bbox_inches='tight')
     # close figure
     fig.clf()
@@ -128,8 +128,88 @@ def per_sample_entropy_methylation_changes_scatterplot(per_sample_entropy_methyl
     legend.set_title("Region type")
     # add title
     ax.set_title(plot_title)
-    # save figure - file name is (output_prefix)_per_sample_entropy_methylation_changes_scatterplot.png
+    # save figure - file name is (output_prefix)_(sample_name)_per_sample_entropy_methylation_changes_scatterplot.png
     fig.savefig(output_prefix + "_" + sample_name + "_per_sample_entropy_methylation_changes_scatterplot.png", format='png', dpi=300, bbox_inches='tight')
+    # close figure
+    fig.clf()
+
+# subroutine to make per sample entropy vs. DMR length plots
+# include modkit dmr pair, unsmoothed DSS DMR, and smoothed DSS DMR on one plot
+def per_sample_entropy_DMR_length_scatterplot(per_sample_entropy_methylation_df,sample_name,plot_title,output_prefix):
+    # initialize figure
+    fig, ax = plt.subplots()
+    # plot entropy vs. respective methylation changes per DMR per sample
+    ax = sb.scatterplot(data=per_sample_entropy_methylation_df,x="DMR length",y="mean_entropy",hue="name")
+    # label axes
+    ax.set(xlabel="DMR length (bp)")
+    ax.set(ylabel="Methylation entropy per DMR")
+    # label legend
+    legend = ax.legend()
+    legend.set_title("Region type")
+    # save figure - file name is (output_prefix)_(sample_name)_per_sample_entropy_DMR_length_scatterplot.png
+    fig.savefig(output_prefix + "_" + sample_name + "_per_sample_entropy_DMR_length_scatterplot.png", format='png', dpi=300, bbox_inches='tight')
+    # close figure
+    fig.clf()
+
+# subroutine to make DMR change vs. DMR length plots
+# include modkit dmr pair, unsmoothed DSS DMR, and smoothed DSS DMR on one plot
+def per_sample_DMR_change_DMR_length_scatterplot(per_sample_entropy_methylation_df,sample_name,plot_title,output_prefix):
+    # initialize figure
+    fig, ax = plt.subplots()
+    # plot entropy vs. respective methylation changes per DMR per sample
+    ax = sb.scatterplot(data=per_sample_entropy_methylation_df,x="DMR length",y="effect_size",hue="name")
+    # label axes
+    ax.set(xlabel="DMR length (bp)")
+    ax.set(ylabel="Methylation change per DMR")
+    # label legend
+    legend = ax.legend()
+    legend.set_title("Region type")
+    # save figure - file name is (output_prefix)_(sample_name)_per_sample_DMR_change_DMR_length_scatterplot.png
+    fig.savefig(output_prefix + "_" + sample_name + "_per_sample_DMR_change_DMR_length_scatterplot.png", format='png', dpi=300, bbox_inches='tight')
+    # close figure
+    fig.clf()
+
+# subroutine to make DMR length histogram
+# include modkit dmr pair, unsmoothed DSS DMR, and smoothed DSS DMR on one plot
+def per_sample_DMR_length_distribution_histogram(per_sample_entropy_methylation_df,sample_name,plot_title,output_prefix):
+    # rename "name" column to "Region type"
+    per_sample_entropy_methylation_df=per_sample_entropy_methylation_df.rename(columns={'name': 'Region type'})
+    # initialize figure
+    fig, ax = plt.subplots()
+    # plot per sample entropy distribution histogram with dodge set to true (side by side bars per data type)
+    ax = sb.histplot(data=per_sample_entropy_methylation_df,x="DMR length",hue="Region type",multiple="dodge",stat="proportion",common_norm=False,kde=True)
+    # label x-axis
+    ax.set(xlabel="DMR length (bp)")
+    # label y-axis
+    ax.set(ylabel="Proportion of DMRs")
+    # label legend
+    # plt.legend(title="Region type")
+    # add title
+    ax.set_title(plot_title)
+    # save figure - file name is (output_prefix)_(sample_name)_per_sample_DMR_length_distribution_histogram.png
+    fig.savefig(output_prefix + "_" + sample_name + "_per_sample_DMR_length_distribution_histogram.png", format='png', dpi=300, bbox_inches='tight')
+    # close figure
+    fig.clf()
+
+# subroutine to make DMR change histogram
+# include modkit dmr pair, unsmoothed DSS DMR, and smoothed DSS DMR on one plot
+def per_sample_DMR_change_distribution_histogram(per_sample_entropy_methylation_df,sample_name,plot_title,output_prefix):
+    # rename "name" column to "Region type"
+    per_sample_entropy_methylation_df=per_sample_entropy_methylation_df.rename(columns={'name': 'Region type'})
+    # initialize figure
+    fig, ax = plt.subplots()
+    # plot per sample entropy distribution histogram with dodge set to true (side by side bars per data type)
+    ax = sb.histplot(data=per_sample_entropy_methylation_df,x="effect_size",hue="Region type",multiple="dodge",stat="proportion",common_norm=False,kde=True)
+    # label x-axis
+    ax.set(xlabel="Methylation change per DMR")
+    # label y-axis
+    ax.set(ylabel="Proportion of DMRs")
+    # label legend
+    # plt.legend(title="Region type")
+    # add title
+    ax.set_title(plot_title)
+    # save figure - file name is (output_prefix)_(sample_name)_per_sample_DMR_change_distribution_histogram.png
+    fig.savefig(output_prefix + "_" + sample_name + "_per_sample_DMR_change_distribution_histogram.png", format='png', dpi=300, bbox_inches='tight')
     # close figure
     fig.clf()
     
@@ -180,9 +260,9 @@ def main():
     # filter for modkit dmr segments that are truly different in methylation
     sample_1_modkit_dmr_segments_entropy_df=sample_1_modkit_dmr_segments_entropy_df[sample_1_modkit_dmr_segments_entropy_df['state-name']=='different']
     # get just necessary columns for plotting
-    sample_1_modkit_dmr_segments_entropy_diff_df=sample_1_modkit_dmr_segments_entropy_df[['region_name','mean_entropy','effect_size']]
-    sample_1_dss_unsmoothed_dmr_entropy_dmrs_diff_df=sample_1_dss_unsmoothed_dmr_entropy_dmrs_df[['region_name','mean_entropy','diff.Methy']].rename(columns={'diff.Methy': 'effect_size'})
-    sample_1_dss_smoothed_dmr_entropy_dmrs_diff_df=sample_1_dss_smoothed_dmr_entropy_dmrs_df[['region_name','mean_entropy','diff.Methy']].rename(columns={'diff.Methy': 'effect_size'})
+    sample_1_modkit_dmr_segments_entropy_diff_df=sample_1_modkit_dmr_segments_entropy_df[['region_name','mean_entropy','N-sites','effect_size']].rename(columns={'N-sites': 'DMR length'})
+    sample_1_dss_unsmoothed_dmr_entropy_dmrs_diff_df=sample_1_dss_unsmoothed_dmr_entropy_dmrs_df[['region_name','mean_entropy','length','diff.Methy']].rename(columns={'diff.Methy': 'effect_size', 'length': 'DMR length'})
+    sample_1_dss_smoothed_dmr_entropy_dmrs_diff_df=sample_1_dss_smoothed_dmr_entropy_dmrs_df[['region_name','mean_entropy','length','diff.Methy']].rename(columns={'diff.Methy': 'effect_size', 'length': 'DMR length'})
     # name by region type
     sample_1_modkit_dmr_segments_entropy_diff_df.insert(loc=0, column='name', value=args.sample_name_1 + " modkit DMR segments")
     sample_1_dss_unsmoothed_dmr_entropy_dmrs_diff_df.insert(loc=0, column='name', value=args.sample_name_1 + " DSS unsmoothed DMRs")
@@ -220,9 +300,9 @@ def main():
     # filter for modkit dmr segments that are truly different in methylation
     sample_2_modkit_dmr_segments_entropy_df=sample_2_modkit_dmr_segments_entropy_df[sample_2_modkit_dmr_segments_entropy_df['state-name']=='different']
     # get just necessary columns for plotting
-    sample_2_modkit_dmr_segments_entropy_diff_df=sample_2_modkit_dmr_segments_entropy_df[['region_name','mean_entropy','effect_size']]
-    sample_2_dss_unsmoothed_dmr_entropy_dmrs_diff_df=sample_2_dss_unsmoothed_dmr_entropy_dmrs_df[['region_name','mean_entropy','diff.Methy']].rename(columns={'diff.Methy': 'effect_size'})
-    sample_2_dss_smoothed_dmr_entropy_dmrs_diff_df=sample_2_dss_smoothed_dmr_entropy_dmrs_df[['region_name','mean_entropy','diff.Methy']].rename(columns={'diff.Methy': 'effect_size'})
+    sample_2_modkit_dmr_segments_entropy_diff_df=sample_2_modkit_dmr_segments_entropy_df[['region_name','mean_entropy','N-sites','effect_size']].rename(columns={'N-sites': 'DMR length'})
+    sample_2_dss_unsmoothed_dmr_entropy_dmrs_diff_df=sample_2_dss_unsmoothed_dmr_entropy_dmrs_df[['region_name','mean_entropy','length','diff.Methy']].rename(columns={'diff.Methy': 'effect_size', 'length': 'DMR length'})
+    sample_2_dss_smoothed_dmr_entropy_dmrs_diff_df=sample_2_dss_smoothed_dmr_entropy_dmrs_df[['region_name','mean_entropy','length','diff.Methy']].rename(columns={'diff.Methy': 'effect_size', 'length': 'DMR length'})
     # name by region type
     sample_2_modkit_dmr_segments_entropy_diff_df.insert(loc=0, column='name', value=args.sample_name_2 + " modkit DMR segments")
     sample_2_dss_unsmoothed_dmr_entropy_dmrs_diff_df.insert(loc=0, column='name', value=args.sample_name_2 + " DSS unsmoothed DMRs")
@@ -271,5 +351,21 @@ def main():
     per_sample_entropy_methylation_changes_scatterplot(sample_1_concat_dmr_entropy_table,args.sample_name_1,args.plot_title,args.output_prefix)
     # entropy vs. methylation change scatterplot for sample 2
     per_sample_entropy_methylation_changes_scatterplot(sample_2_concat_dmr_entropy_table,args.sample_name_2,args.plot_title,args.output_prefix)
+    # entropy vs. dmr length for sample 1
+    per_sample_entropy_DMR_length_scatterplot(sample_1_concat_dmr_entropy_table,args.sample_name_1,args.plot_title,args.output_prefix)
+    # entropy vs. dmr length for sample 2
+    per_sample_entropy_DMR_length_scatterplot(sample_2_concat_dmr_entropy_table,args.sample_name_2,args.plot_title,args.output_prefix)
+    # DMR change vs. DMR length for sample 1
+    per_sample_DMR_change_DMR_length_scatterplot(sample_1_concat_dmr_entropy_table,args.sample_name_1,args.plot_title,args.output_prefix)
+    # DMR change vs. DMR length for sample 2
+    per_sample_DMR_change_DMR_length_scatterplot(sample_2_concat_dmr_entropy_table,args.sample_name_2,args.plot_title,args.output_prefix)
+    # DMR length histogram for sample 1
+    per_sample_DMR_length_distribution_histogram(sample_1_concat_dmr_entropy_table,args.sample_name_1,args.plot_title,args.output_prefix)
+    # DMR length histogram for sample 2
+    per_sample_DMR_length_distribution_histogram(sample_2_concat_dmr_entropy_table,args.sample_name_2,args.plot_title,args.output_prefix)
+    # DMR change histogram for sample 1
+    per_sample_DMR_change_distribution_histogram(sample_1_concat_dmr_entropy_table,args.sample_name_1,args.plot_title,args.output_prefix)
+    # DMR change histogram for sample 2
+    per_sample_DMR_change_distribution_histogram(sample_2_concat_dmr_entropy_table,args.sample_name_2,args.plot_title,args.output_prefix)
 if __name__ == "__main__":
     main()
