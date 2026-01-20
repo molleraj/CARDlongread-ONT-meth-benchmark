@@ -80,7 +80,7 @@ def pairwise_entropy_scatterplot(both_samples_entropy_df,sample_name_1,sample_na
     ax = sb.scatterplot(data=both_samples_entropy_df,x="mean_entropy_x",y="mean_entropy_y",hue="common_name")
     # label axes
     ax.set(xlabel=sample_name_1 + " methylation entropy per region")
-    ax.set(xlabel=sample_name_2 + " methylation entropy per region")
+    ax.set(ylabel=sample_name_2 + " methylation entropy per region")
     # label legend
     legend = ax.legend()
     legend.set_title("Region type")
