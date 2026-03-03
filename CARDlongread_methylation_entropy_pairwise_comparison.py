@@ -45,7 +45,9 @@ def parse_args():
     # argument for plot title
     parser.add_argument("--plot_title", required=False, default="ONT pairwise entropy comparison", help="Title for each output plot.")
     # argument for read count cutoff
-    parser.add_argument("--read_count_cutoff", required=False, default=500, help="Read count cutoff for read count vs. methylation entropy plot.")
+    parser.add_argument("--read_count_cutoff", required=False, default=500, help="Read count cutoff for read count vs. methylation entropy plot (default 500 reads or less)")
+    # argument for DMR length cutoff
+    parser.add_argument("--dmr_length_cutoff", required=False, type=int, default=None, help="DMR length cutoff in base pairs (bp) for all plots showing DMRs (recommended 2000 bp or shorter).")
     # return parsed arguments
     return parser.parse_args()
 
@@ -62,6 +64,8 @@ def per_sample_entropy_distribution_histogram(per_sample_entropy_df,sample_name,
     ax.set(xlabel="Methylation entropy per region")
     # label y-axis
     ax.set(ylabel="Proportion of regions")
+    # set high y-limit to 1
+    ax.set_ylim(bottom=0,top=1.1)
     # label legend
     # plt.legend(title="Region type")
     # add title
@@ -182,6 +186,8 @@ def per_sample_DMR_length_distribution_histogram(per_sample_entropy_methylation_
     ax.set(xlabel="DMR length (bp)")
     # label y-axis
     ax.set(ylabel="Proportion of DMRs")
+    # set high y-limit to 1
+    ax.set_ylim(bottom=0,top=1.1)
     # label legend
     # plt.legend(title="Region type")
     # add title
@@ -204,6 +210,8 @@ def per_sample_DMR_change_distribution_histogram(per_sample_entropy_methylation_
     ax.set(xlabel="Methylation change per DMR")
     # label y-axis
     ax.set(ylabel="Proportion of DMRs")
+    # set high y-limit to 1
+    ax.set_ylim(bottom=0,top=1.1)
     # label legend
     # plt.legend(title="Region type")
     # add title
@@ -334,9 +342,16 @@ def main():
     samples_1_and_2_combined_concat_entropies['common_name']=samples_1_and_2_combined_concat_entropies['common_name'].str.replace('genomic windows', 'Genomic windows', regex=True, n=1)
     # make 'common_name' data type string
     samples_1_and_2_combined_concat_entropies['common_name']=samples_1_and_2_combined_concat_entropies['common_name'].astype('string')
+    # print statistics on each DMR set
+    # print number of DMRs, average change, standard error of changes, average length, and standard error of lengths
     # proceed with plotting
     # concatenate together in single labeled data frame
     # make each output plot
+    # filter out 
+    if (args.dmr_length_cutoff is not None):
+        print("Filtering out all DMRs over",args.dmr_length_cutoff,"bp in length before plotting...")
+        sample_1_concat_dmr_entropy_table=sample_1_concat_dmr_entropy_table[sample_1_concat_dmr_entropy_table['DMR length']<args.dmr_length_cutoff]
+        sample_2_concat_dmr_entropy_table=sample_2_concat_dmr_entropy_table[sample_2_concat_dmr_entropy_table['DMR length']<args.dmr_length_cutoff]
     # entropy histogram for sample 1
     per_sample_entropy_distribution_histogram(sample_1_concat_entropy_table,args.sample_name_1,args.plot_title,args.output_prefix)
     # entropy histogram for sample 2
